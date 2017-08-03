@@ -1,0 +1,25 @@
+
+version: '2'
+services:
+    postgres:
+        image: postgres:9.6.1
+#         ports:
+#             - "5432:5432"
+        environment:
+            - POSTGRES_USER=myapp
+            - POSTGRES_PASSWORD=my-password
+            
+    wildfly:
+#        image: mohamnag/wildfly-postgres
+        build: .
+        ports:
+            - "8080:8080"
+        environment:
+            - DB_NAME=myapp
+            - DB_PASS=my-password
+            - DB_USER=myapp
+            - DB_HOST=postgres
+            - DS_NAME=appDS
+            - JNDI_NAME=java:jboss/jdbc/appDS
+        depends_on:
+            - postgres
